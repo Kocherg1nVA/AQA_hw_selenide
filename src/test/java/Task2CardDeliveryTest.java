@@ -9,25 +9,26 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class Task2CardDeliveryTest {
 
-    CardDeliveryTest service = new CardDeliveryTest();
+    CardDeliveryTest dateService = new CardDeliveryTest();
 
     Calendar calendar = new GregorianCalendar();
     int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    int daysOfWeek = calendar.getActualMaximum(Calendar.DAY_OF_WEEK);
 
     @Test
-    public void shouldSendFormNextWeekMeeting() {
+    public void shouldSendFormNextWeek() {
 
-        String planDate = service.planningDate(7, "dd.MM.yyyy");
-        String planDay = service.planningDate(7, "d");
+        String planDate = dateService.planningDate(daysOfWeek, "dd.MM.yyyy");
+        String planDay = dateService.planningDate(daysOfWeek, "d");
 
-        int resultDay = calendar.get(Calendar.DAY_OF_WEEK);
+        int meetingDay = Integer.parseInt(planDay);
 
         Selenide.open("http://localhost:9999");
 
         $("[data-test-id='city'] input").setValue("ка");
         $$(".menu-item").find(Condition.text("Йошкар-Ола")).click();
         $(".icon-button .icon_name_calendar").click();
-        if (resultDay > daysOfMonth) {
+        if (meetingDay > daysOfMonth) {
             $("[role='button'][data-step='1'].calendar__arrow_direction_right").click();
             $$(".calendar__day").find(Condition.text(planDay)).click();
         } else {
