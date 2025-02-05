@@ -1,6 +1,7 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
+
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -30,10 +31,8 @@ public class Task2CardDeliveryTest {
         $(".icon-button .icon_name_calendar").click();
         if (meetingDay > daysOfMonth) {
             $("[role='button'][data-step='1'].calendar__arrow_direction_right").click();
-            $$(".calendar__day").find(Condition.text(planDay)).click();
-        } else {
-            $$(".calendar__day").find(Condition.text(planDay)).click();
         }
+        $$(".calendar__day").find(Condition.text(planDay)).click();
         $("[data-test-id='name'] input").setValue("Иванов Иван");
         $("[data-test-id='phone'] input").setValue("+79991251212");
         $("[data-test-id='agreement']").click();
